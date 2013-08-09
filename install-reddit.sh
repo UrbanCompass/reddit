@@ -42,25 +42,25 @@ set -e
 ###############################################################################
 
 # which user should run the reddit code
-REDDIT_USER=reddit
+REDDIT_USER=${REDDIT_USER:-$USER}
 
 # the group to run reddit code as
 REDDIT_GROUP=nogroup
 
 # the root directory in which to install the reddit code
-REDDIT_HOME=/home/$REDDIT_USER
+REDDIT_HOME=${REDDIT_HOME:-/home/$REDDIT_USER/development}
 
 # which user should own the installed reddit files
 # NOTE: if you change this option, you should move the mako template
 # cache directory by changing the "cache_dir" option in the [app:main]
 # section of the update files as $REDDIT_HOME will most likely
 # not be writable by the reddit user.
-REDDIT_OWNER=reddit
+REDDIT_OWNER=${REDDIT_OWNER:-$REDDIT_USER}
 
 # the domain that you will connect to your reddit install with.
 # MUST contain a . in it somewhere as browsers won't do cookies for dotless
 # domains. an IP address will suffice if nothing else is available.
-REDDIT_DOMAIN=${REDDIT_DOMAIN:-reddit.local}
+REDDIT_DOMAIN=${REDDIT_DOMAIN:-127.0.0.1}
 
 ###############################################################################
 # Sanity Checks
@@ -78,6 +78,16 @@ source /etc/lsb-release
 if [ "$DISTRIB_ID" != "Ubuntu" -o "$DISTRIB_RELEASE" != "12.04" ]; then
     echo "ERROR: Only Ubuntu 12.04 is supported."
     exit 1
+fi
+
+
+# This is an extra req for urbancompass, since we use our own fork.
+if [ ! -d "$REDDIT_HOME/reddit" ]; then
+  echo "ERROR: we do not support cloning the reddit repo live."
+  echo "It should have been created from the fab script for deploys, or you "
+  echo "should clone it manually (from the https://github.com/UrbanCompass fork"
+  echo ") for development."
+  exit 1
 fi
 
 ###############################################################################
@@ -311,42 +321,11 @@ fi
 ###############################################################################
 # haproxy
 ###############################################################################
-if [ -e /etc/haproxy/haproxy.cfg ]; then
-    BACKUP_HAPROXY=$(mktemp /etc/haproxy/haproxy.cfg.XXX)
-    echo "Backing up /etc/haproxy/haproxy.cfg to $BACKUP_HAPROXY"
-    cat /etc/haproxy/haproxy.cfg > $BACKUP_HAPROXY
-fi
 
-# make sure haproxy is enabled
-cat > /etc/default/haproxy <<DEFAULT
-ENABLED=1
-DEFAULT
+# NOTE(ugo): Rather than using haproxy, we use nginx.
+# Since running the reverse proxy is not required for this script to complete,
+# we setup nginx in our fab files.
 
-# configure haproxy
-cat > /etc/haproxy/haproxy.cfg <<HAPROXY
-global
-    maxconn 100
-
-frontend frontend 0.0.0.0:80
-    mode http
-    timeout client 10000
-    option forwardfor except 127.0.0.1
-    option httpclose
-
-    default_backend dynamic
-
-backend dynamic
-    mode http
-    timeout connect 4000
-    timeout server 30000
-    timeout queue 60000
-    balance roundrobin
-
-    server app01-8001 localhost:8001 maxconn 1
-HAPROXY
-
-# this will start it even if currently stopped
-service haproxy restart
 
 ###############################################################################
 # Upstart Environment
