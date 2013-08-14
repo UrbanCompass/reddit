@@ -41,10 +41,53 @@ def populate(num_srs = 10, num_users = 1000, num_links = 100, num_comments = 20,
         a = register(g.system_user, "password", "127.0.0.1")
 
     srs = []
-    for i in range(num_srs):
-        name = "reddit_test%d" % i
+    names = [
+    'battery_park_city',
+    'harlem',
+    'chelsea',
+    'chinatown',
+    'east_harlem',
+    'east_village',
+    'financial_district',
+    'flatiron',
+    'fashion_district',
+    'gramercy',
+    'greenwich_village',
+    'hells_kitchen',
+    'little_italy',
+    'lower_east_side',
+    'meatpacking_district',
+    'midtown_east',
+    'morningside_heights',
+    'murray_hill',
+    'noho',
+    'nolita',
+    'nomad',
+    'soho',
+    'theater_district',
+    'tribeca',
+    'upper_east_side',
+    'upper_west_side',
+    'west_village',
+    'gowanus',
+    'park_slope',
+    'carroll_gardens',
+    'cobble_hill',
+    'boerum_hill',
+    'brooklyn_heights',
+    'downtown_brooklyn',
+    'prospect_heights',
+    'fort_greene',
+    'clinton_hill',
+    'vinegar_hill',
+    'dumbo',
+    'williamsburg',
+    'greenpoint',
+    'long_island_city',
+    ]
+    for name in names:
         try:
-            sr = Subreddit._new(name = name, title = "everything about #%d"%i,
+            sr = Subreddit._new(name = name, title = "everything about %s" % name,
                                 ip = '0.0.0.0', author_id = a._id)
             sr._downs = 10
             sr.lang = "en"
@@ -70,8 +113,9 @@ def populate(num_srs = 10, num_users = 1000, num_links = 100, num_comments = 20,
         title = url = 'http://google.com/?q=' + str(id)
         user = random.choice(accounts)
         sr = random.choice(srs)
-        l = Link._submit(title, url, user, sr, '127.0.0.1')
-        queries.new_link(l)
+        if False:
+          l = Link._submit(title, url, user, sr, '127.0.0.1')
+          queries.new_link(l)
 
         comments = [ None ]
         for i in range(int(random.betavariate(2, 8) * 5 * num_comments)):
@@ -88,11 +132,12 @@ def populate(num_srs = 10, num_users = 1000, num_links = 100, num_comments = 20,
                 v = Vote.vote(another_user, c, True, '127.0.0.1')
                 queries.new_vote(v)
 
-        like = random.randint(50,100)
-        for i in range(int(random.betavariate(2, 8) * 5 * num_votes)):
-           user = random.choice(accounts)
-           v = Vote.vote(user, l, random.randint(0, 100) <= like, '127.0.0.1')
-           queries.new_vote(v)
+        if False:
+          like = random.randint(50,100)
+          for i in range(int(random.betavariate(2, 8) * 5 * num_votes)):
+            user = random.choice(accounts)
+            v = Vote.vote(user, l, random.randint(0, 100) <= like, '127.0.0.1')
+            queries.new_vote(v)
 
     queries.worker.join()
 

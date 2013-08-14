@@ -1,0 +1,29 @@
+# after editing this file, run "make ini" to
+# generate a new development.ini
+
+[DEFAULT]
+debug = true
+
+disable_ads = true
+disable_captcha = true
+disable_ratelimit = true
+disable_require_admin_otp = true
+
+page_cache_time = 0
+
+set debug = true
+
+domain = 127.0.0.1
+https_endpoint = 127.0.0.1:443
+
+# we use the development.creds to write to s3.
+S3KEY_ID = AKIAJIMHVHHSBC6KGDOA
+S3SECRET_KEY = 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
+s3_media_buckets = ugo_reddit
+
+nerds_email = no-reply@urbancompass.com
+share_reply = no-reply@urbancompass.com
+feedback_email = feedback@urbancompass.com
+
+[server:main]
+port = 8001

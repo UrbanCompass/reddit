@@ -1,0 +1,24 @@
+# after editing this file, run "make ini" to
+# generate a new production.ini
+
+[DEFAULT]
+debug = false
+reload_templates = false
+uncompressedJS = false
+
+set debug = false
+
+domain = reddit.internal.urbancompass.com
+https_domain = reddit.internal.urbancompass.com:443
+
+# we use the development.creds to write to s3.
+S3KEY_ID = AKIAJIMHVHHSBC6KGDOA
+S3SECRET_KEY = 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
+s3_media_buckets = ugo_reddit
+
+nerds_email = no-reply@urbancompass.com
+share_reply = no-reply@urbancompass.com
+feedback_email = feedback@urbancompass.com
+
+[server:main]
+port = 8001

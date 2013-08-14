@@ -315,7 +315,7 @@ fi
 sudo -u $REDDIT_OWNER make ini
 
 if [ ! -L run.ini ]; then
-    sudo -u $REDDIT_OWNER ln -s development.ini run.ini
+    sudo -u $REDDIT_OWNER ln -s production.ini run.ini
 fi
 
 ###############################################################################

@@ -19,6 +19,9 @@ r2/r2/lib/generated_strings.py
 *.ini
 *.update
 
+# tags files
+tags
+
 # static files
 r2/r2/public/static/names.json
 r2/r2/public/static/*.js
