@@ -8,6 +8,10 @@ uncompressedJS = false
 
 set debug = false
 
+disable_ads = true
+disable_captcha = true
+disable_ratelimit = true
+
 domain = reddit.internal.urbancompass.com
 https_domain = reddit.internal.urbancompass.com:443
 
@@ -19,6 +23,8 @@ s3_media_buckets = ugo_reddit
 nerds_email = no-reply@urbancompass.com
 share_reply = no-reply@urbancompass.com
 feedback_email = feedback@urbancompass.com
+
+# TODO(ugo): default_header_url = urbancompass.com.header.png
 
 [server:main]
 port = 8001

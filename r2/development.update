@@ -25,5 +25,7 @@ nerds_email = no-reply@urbancompass.com
 share_reply = no-reply@urbancompass.com
 feedback_email = feedback@urbancompass.com
 
+# TODO(ugo): default_header_url = urbancompass.com.header.png
+
 [server:main]
 port = 8001
