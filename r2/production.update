@@ -6,11 +6,14 @@ debug = false
 reload_templates = false
 uncompressedJS = false
 
-set debug = false
+admins = reddit ugodiggi
 
 disable_ads = true
 disable_captcha = true
 disable_ratelimit = true
+disable_require_admin_otp = true
+
+set debug = false
 
 domain = reddit.internal.urbancompass.com
 https_domain = reddit.internal.urbancompass.com:443
@@ -25,6 +28,17 @@ share_reply = no-reply@urbancompass.com
 feedback_email = feedback@urbancompass.com
 
 # TODO(ugo): default_header_url = urbancompass.com.header.png
+
+# Ensure that comments are not rate limited.
+MIN_RATE_LIMIT_COMMENT_KARMA = -100000000
+MIN_RATE_LIMIT_KARMA = -100000000
+
+UC_SEND_EMAILS = false
+
+# There are features of reddit that don't seem to work for UrbanCompass.
+# We use this flag to turn them off selectively so that we can consider fixing
+# them back later.
+UC_REMOVE_BROKEN_FEATURES = true
 
 [server:main]
 port = 8001

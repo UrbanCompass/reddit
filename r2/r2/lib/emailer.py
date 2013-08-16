@@ -158,16 +158,19 @@ def send_queued_mail(test = False):
         c.site = DefaultSR()
 
     clear = False
+    if not g.UC_SEND_EMAILS:
+        g.log.info('Not sending emails.')
+        test = True
     if not test:
         session = smtplib.SMTP(g.smtp_server)
     def sendmail(email):
         try:
             mimetext = email.to_MIMEText()
             if mimetext is None:
-                print ("Got None mimetext for email from %r and to %r"
+                g.log.info("Got None mimetext for email from %r and to %r"
                        % (email.fr_addr, email.to_addr))
             if test:
-                print mimetext.as_string()
+                g.log.info(mimetext.as_string())
             else:
                 session.sendmail(email.fr_addr, email.to_addr,
                                  mimetext.as_string())

@@ -218,7 +218,9 @@ class Reddit(Templated):
         if srbar and not c.cname and not is_api():
             self.srtopbar = SubredditTopBar()
 
-        if (c.user_is_loggedin and self.show_sidebar
+        # TODO(ugo): this seems to break with the recently added reddit employee stuff.
+        # I'm commenting it out.
+        if not g.UC_REMOVE_BROKEN_FEATURES and (c.user_is_loggedin and self.show_sidebar
             and not is_api() and not self.show_wiki_actions):
             # insert some form templates for js to use
             # TODO: move these to client side templates
